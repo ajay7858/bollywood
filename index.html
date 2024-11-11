@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Card Flip</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #2c3e50, #4ca1af); /* Updated gradient background */
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #e69822; /* Updated title color */
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #resultText {
+            font-size: 5em; /* Decreased size */
+            font-weight: bold;
+            margin: 30px 0;
+            color: #23e082; /* Updated result text color */
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            font-family: 'Courier New', Courier, monospace;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Transition for animation */
+            transform: scale(0.5); /* Initial scale for animation */
+        }
+
+        .loading {
+            display: none; /* Initially hidden */
+            justify-content: center; /* Center align items */
+            align-items: center; /* Center vertically */
+            position: relative; /* Position relative for child elements */
+            height: 70px; /* Increased height for better visibility */
+        }
+
+        .loader {
+            position: relative;
+            width: 70px; /* Circle diameter */
+            height: 70px; /* Circle diameter */
+            border-radius: 50%; /* Make it a circle */
+            margin: 0 auto; /* Center the loader */
+        }
+
+        .dot {
+            height: 12px; /* Dot size */
+            width: 12px; /* Dot size */
+            border-radius: 50%;
+            background-color: #e74c3c; /* Updated dot color */
+            position: absolute;
+            animation: dotAnimation 1.5s linear infinite; /* Rotate animation */
+        }
+
+        @keyframes dotAnimation {
+            0% {
+                transform: rotate(0deg) translate(30px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translate(30px) rotate(-360deg);
+            }
+        }
+
+        /* Positioning the 5 dots around the circle */
+        .dot:nth-child(1) { top: 0; left: 50%; margin-left: -6px; }
+        .dot:nth-child(2) { top: 100%; left: 50%; margin-left: -6px; transform: translateY(-100%); }
+        .dot:nth-child(3) { left: 100%; top: 50%; margin-top: -6px; transform: translateX(-100%); }
+        .dot:nth-child(4) { left: 0; top: 50%; margin-top: -6px; }
+        .dot:nth-child(5) { top: 50%; left: 50%; margin-left: -6px; margin-top: -6px; } /* Center dot */
+
+        button {
+            font-size: 1.5em;
+            padding: 12px 25px;
+            background-color: #2980b9; /* Updated button color */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #1abc9c; /* Updated hover color */
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Premium Card Flip</h1>
+        <div id="loading" class="loading">
+            <div class="loader">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div> <!-- Fifth dot -->
+            </div>
+        </div>
+        <p id="resultText">--</p>
+        <button onclick="flipCard()">Flip Card</button>
+    </div>
+
+    <script>
+        function flipCard() {
+            // Show the loading spinner
+            const loadingElement = document.getElementById("loading");
+            const resultTextElement = document.getElementById("resultText");
+
+            loadingElement.style.display = "flex"; // Show loading dots
+            resultTextElement.style.opacity = 0; // Hide before showing the new result
+            resultTextElement.style.transform = 'scale(0.5)'; // Scale down before showing the new result
+
+            // Show the loading for 3 seconds, then show the result
+            setTimeout(() => {
+                // Possible card values and suits (each card repeated twice)
+                const deck = [
+                    "A ♠️", "A ♠️", "J ♠️", "J ♠️", "Q ♠️", "Q ♠️", "K ♠️", "K ♠️",
+                    "A ♦️", "A ♦️", "J ♦️", "J ♦️", "Q ♦️", "Q ♦️", "K ♦️", "K ♦️",
+                    "A ♣️", "A ♣️", "J ♣️", "J ♣️", "Q ♣️", "Q ♣️", "K ♣️", "K ♣️",
+                    "A ♥️", "A ♥️", "J ♥️", "J ♥️", "Q ♥️", "Q ♥️", "K ♥️", "K ♥️"
+                ];
+
+                // Select a random card from the deck
+                const result = deck[Math.floor(Math.random() * deck.length)];
+
+                // Display the result with animation
+                resultTextElement.innerText = result;
+                resultTextElement.style.opacity = 1; // Make it visible
+                resultTextElement.style.transform = 'scale(1)'; // Scale up for animation
+
+                // Hide the loading spinner
+                loadingElement.style.display = "none";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
